@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'main',
     'login',
     'import_export',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -108,17 +109,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
-MEDIA_ROOT = os.path. join(BASE_DIR, 'media')
+
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path. join(BASE_DIR, 'media/')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
 MEDIA_URL = '/files/'

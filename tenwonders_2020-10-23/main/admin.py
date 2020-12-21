@@ -4,7 +4,7 @@ from .models import *
 from import_export.admin import ImportExportModelAdmin
 
 
-@admin.register(Influencer_DB,Youtube_result,Instagram_result,Search,Record,Contract,ID_btn)
+@admin.register(Influencer_DB,Youtube_result,Instagram_result,Search,Record,Contract,ID_btn,Notice)
 class InfluencerAdmin(ImportExportModelAdmin):
     pass
 

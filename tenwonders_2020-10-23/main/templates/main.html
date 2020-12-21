@@ -25,7 +25,7 @@
 		 gtag('js', new Date());
 		 gtag('config', 'G-QT3NV564E2');
 		</script>
-    <title>셀리스토리 직원용 페이지</title>
+    <title>텐원더스 포털</title>
     <style>
         #logo{
             text-align: center;
@@ -75,52 +75,54 @@
 </head>
 {% load static %}
 <body>   
-    <header>
-        <a style="position: absolute; top: 10%; left: 80%;" href="{% url 'logout' %}"><button type="button" class="btn btn-primary btn-lg">로그아웃</button></a>
-    </header>
-    <div id="logo">
-        <img style="width: 30%;" src="{% static 'images/cellystory_logo2.jpg' %}" alt="">
-    </div>
-
+    
     {% if user.is_active == True %}
-    <div style="text-align: center;">
-        <h1>{{nickname}} {{position}}님 반갑습니다</h1>
-    </div>
-    <div style="display: flex; justify-content: center;">
-        <div class="celly_btn_container" style="text-align: center; margin-top: 100px;">
-            {% for btn in celly_btn %}
-            {% if btn.now_using == True or btn.dm_blocked %}
-            <a id="btn" href="{% url 'btn_info' btn.id %}"><button type="button" class="btn btn-danger btn-lg">{{btn.celly_id}}</button></a> 
-            {% else %}
-            <a id="btn" href="{% url 'btn_info' btn.id %}"><button type="button" class="btn btn-primary btn-lg">{{btn.celly_id}}</button></a>
-            {% endif %}
-            {% endfor %}
-            <a id="btn" href="{% url 'btn_create'%}"><button type="button" class="btn btn-primary btn-lg">계정 생성</button></a>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}" style="display: inline-flex; text-align: center;">
+            <img src="{% static 'images/tenwonders_logo.png' %}" alt="" width="20%">
+            <p style="margin-top: 15px; margin-left: 30px; font-weight: bold; font-size: 30px;">Tenwonders 포털</p>
+          </a>
+          <p style="margin-top: 20px;">{{nickname}} {{position}}님 반갑습니다</p>
+            <a href="{% url 'logout' %}">
+                <button type="button" class="btn btn-primary btn-lg">로그아웃</button>
+            </a>
+            
         </div>
-    </div>
-        <div id="youtube_container">
-            <form id="search_bar" method="POST" class="form-inline my-2 my-lg-0">
-                {% csrf_token %}
-                <img style="width: 10%; margin-right: 10px;" src="https://cdn.1min30.com/wp-content/uploads/2017/03/YouTube-logo.jpg" alt="">
-                <input style="width: 30%;" class="form-control mr-sm-2" type="text" name="search_youtube" placeholder="유튜브 키워드를 입력하세요" aria-label="search">
-                <input style="width: 20%;" class="form-control mr-sm-2" type="text" name="condition_up" placeholder="최대 구독자 수를 입력하세요" aria-label="condition">
-                <input style="width: 20%;" class="form-control mr-sm-2" type="text" name="condition_down" placeholder="최소 구독자 수를 입력하세요" aria-label="condition">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">인플루언서 검색</button>
-                {% if messages %}
-                {% for message in messages %}
-                <p style="color: red;">{{ message.message }}</p>
+    </nav> 
+        <h3 style="font-weight: bold; text-align: center; margin-top: 50px; margin-bottom: 30px;">공통 게시판</h3>
+        <div id="notice" style="height: 400px;">
+            <table class="table table-hover" style="width: 70%;  margin: auto; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>날짜</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                {% for obj in notice%}
+                <tbody>
+                    {% if obj.status == 'alert' %}
+                    <td><p style="color: red;">[공지]</p></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td><a href="{% url 'notice_detail' obj.id %}">{{obj.title}}</a></td>
+                    <td>{{obj.writer.nickname}}</td>
+                    <td>{{obj.date|date:"Y/m/d"}}</td>
+                    <td>{{obj.visit_num}}</td>
+                </tbody>
                 {% endfor %}
+            </table>
+            <div style="width: 70%; margin: auto;">
+                {% if position == '팀장' or position == '이사' %}
+                <a href="{% url 'notice_create' %}"><button style="float: right;" type="button" class="btn btn-secondary">글쓰기</button></a>
                 {% endif %}
-            </form>
+            </div>
         </div>
-        <div id="instagram_container">
-            <form id="search_bar" method="POST" class="form-inline my-2 my-lg-0">
-                {% csrf_token %}
-                <img style="width: 7%; margin-right: 25px; margin-left:15px;" src='https://ww.namu.la/s/4a34412801b40fa5887d6dfe0db9c73e50de8aae1cfb76c073ca8afb1b5af6b1690431af9be13e9f2eea33d3a79c35bdfc1c0ed922e5833076421b720d9888d0ff9d32e1733e1c8646f34fc30955be9f74fce18f06dd07e9044a69b8cf7ca0322fa22f415122a8080d4534985138e2e4' alt="">
-                <input style="width: 30%;" class="form-control mr-sm-2" type="text" name="search_insta" placeholder="인스타그램 키워드를 입력하세요" aria-label="search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">인플루언서 검색</button>
-            </form>
-        </div>
+
         <div id="internalDB_container">
             <form id="search_bar" method="POST" class="form-inline my-2 my-lg-0">
                 {% csrf_token %}
@@ -133,12 +135,12 @@
             <ul style="list-style: none;">
                 <li>
                     <div style="display: inline-block;">
-                        <p style="font-size: 60px; font-weight: bolder; margin-top: 30px;">진행중인 계약</p>
+                        <p style="font-size: 60px; font-weight: bolder; margin-top: 30px;">진행중인 업무</p>
                     </div>
                 </li>
                 {% if position == '팀장' or position == '이사' %}
                 <li>
-                    <a style="font-size: 20px;" href="{% url 'create_contract' %}">신규 계약 추가</a>
+                    <a style="font-size: 20px;" href="{% url 'create_contract' %}">신규 업무 추가</a>
                 </li>
                 {% endif %}
                 <li style="margin-top: 50px;">

@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import main, go_back_and_clean,create_contract,show_record,confirm,delete,wait,delete_contract,celly_btn_info,btn_push,btn_create,btn_delete
-from main.views import btn_condition_change
+from main.views import main, go_back_and_clean,create_contract,show_record,confirm,delete,wait,delete_contract,celly_btn_info,btn_push,btn_create,btn_delete,notice_create,notice_detail,notice_delete
 from login.views import login,logout,signup
 
 urlpatterns = [
@@ -36,5 +35,7 @@ urlpatterns = [
     path('btn_push/<int:btn_id>',btn_push, name="btn_push"),
     path('btn_create/',btn_create,name='btn_create'),
     path('btn_delete/<int:btn_id>', btn_delete, name='btn_delete'),
-    path('btn_condition_change/<int:btn_id>', btn_condition_change, name='btn_condtion_change'),
+    path('notice_create/',notice_create,name="notice_create"),
+    path('notice_detail/<int:notice_id>', notice_detail, name="notice_detail"),
+    path('notice_delete/<int:notice_id>', notice_delete, name='notice_delete'),
 ]

@@ -1,4 +1,7 @@
 from django.db import models
+from login.models import Account
+from django.utils import timezone
+
 
 # Create your models here.
 
@@ -62,3 +65,14 @@ class Influencer_DB(models.Model):
     product = models.CharField(max_length = 100)
     def __str__(self):
         return self.name
+
+class Notice(models.Model):
+    status = models.CharField(max_length = 20)
+    title = models.CharField(max_length = 20)
+    content = models.TextField()
+    writer = models.ForeignKey(Account,on_delete=models.CASCADE)
+    date = models.DateTimeField(default=timezone.now(), null=True)
+    visit_num = models.IntegerField(default=0)
+    def __str__(self):
+        return self.title
+    

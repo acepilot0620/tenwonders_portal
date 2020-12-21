@@ -23,10 +23,12 @@ def main(request):
         contract = Contract.objects.all()
         account = Account.objects.get(user=request.user)
         celly_btn = ID_btn.objects.all()
+        notice = Notice.objects.all()
         context.setdefault('contract', contract)
         context.setdefault('nickname', account.nickname)
         context.setdefault('position', account.position)
         context.setdefault('celly_btn', celly_btn)
+        context.setdefault('notice',notice)
     if request.method == 'POST':
 
         youtube_search = request.POST.get('search_youtube')
@@ -205,6 +207,34 @@ def btn_condition_change(request, btn_id):
         selected_btn.save()
     return redirect('btn_info',btn_id)
 
+
+def notice_create(request):
+    if request.method == 'POST':
+        account = Account.objects.get(user=request.user)
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        status = request.POST.get('status')
+        new_notice = Notice()
+        new_notice.title = title
+        new_notice.content = content
+        new_notice.writer = account
+        new_notice.status = status
+        new_notice.save()
+        return redirect('home')
+    return render(request,'notice_create.html')
+
+def notice_detail(request, notice_id):
+    account = Account.objects.get(user=request.user)
+    notice = get_object_or_404(Notice, pk = notice_id)
+    return render(request,'notice_detail.html',{'notice':notice, 'account':account})
+
+def notice_delete(request, notice_id):
+    notice = get_object_or_404(Notice, pk = notice_id)
+    notice.delete()
+    return redirect('home')
+
+
+    
     
 
 
