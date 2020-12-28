@@ -18,6 +18,10 @@
             margin-left: 15px;
             margin-bottom: 20px;
         }
+        .content{
+            font-weight: bold;
+            font-size: 20px;
+        }
     </style>
     <!-- include libraries(jQuery, bootstrap) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -31,11 +35,24 @@
 {% load static %}
 <body>
     <div style="width: 60%; margin: auto; margin-top: 100px;">
-        <h2 style="margin-bottom: 50px;">{{notice.title}}</h2>
-        <p>{{notice.content|safe}}</p>
-        <a href="{% url 'home' %}"><button type="button" class="btn btn-danger" style="background: #7902DF; border: 0; outline: 0;">홈으로</button></a>
-        {% if account.position == '팀장'%}
-        <a href="{% url 'notice_delete' notice.id %}"><button type="button" class="btn btn-danger">삭제</button></a>
+        <h2 style="margin-bottom: 50px;">{{meeting.company}}</h2>
+        <p class='content'>날짜 : {{meeting.date}}</p>
+        <br>
+        <p class='content'>담당자: {{meeting.encharge_name}} {{meeting.position}}</p>
+        <br>
+        <p class='content'>전화번호: {{meeting.phone_num}}</p>
+        <br>
+        <p class='content'>이메일: {{meeting.email}}</p>
+        <br>
+        <p class='content'>회사 주소: {{meeting.company_address}}</p>
+        <br>
+        <p class='content'>특이사항</p>
+        <br>
+        <p>{{meeting.etc|safe}}</p>
+        <br>
+        <a href="{% url 'meeting' %}"><button type="button" class="btn btn-danger" style="background: #7902DF; border: 0; outline: 0;">뒤로</button></a>
+        {% if account.position == '팀장' or account.position == '매니저'%}
+        <a href="{% url 'meeting_delete' meeting.id %}"><button type="button" class="btn btn-danger">삭제</button></a>
         {% endif %}
     </div>
 </body>

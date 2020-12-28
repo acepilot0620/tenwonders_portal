@@ -31,12 +31,30 @@
 {% load static %}
 <body>
     <div style="width: 60%; margin: auto; margin-top: 100px;">
-        <h2 style="margin-bottom: 50px;">{{notice.title}}</h2>
-        <p>{{notice.content|safe}}</p>
-        <a href="{% url 'home' %}"><button type="button" class="btn btn-danger" style="background: #7902DF; border: 0; outline: 0;">홈으로</button></a>
-        {% if account.position == '팀장'%}
-        <a href="{% url 'notice_delete' notice.id %}"><button type="button" class="btn btn-danger">삭제</button></a>
-        {% endif %}
+        <div>
+            <h2>새로운 업무</h2>
+        </div>
+        <form method="POST" action="{% url 'work_create' %}">
+            {% csrf_token %}
+            <label for="work_name">업무 이름</label>
+            <input id="work_name" class="input" type="text" name="work_name" style="width: 600px;">
+            <br>
+            <br>
+            <label for="status">업무 내용</label>
+            {% for i in workers %}
+            <label for=""><input type="checkbox" name="worker" value="{{i.nickname}}">{{i.nickname}}</label>
+            {% endfor %}
+            <textarea name="content" id="summernote" class="summernote" cols="600" rows="500"></textarea>
+            <button style="float: right;" type="submit" class="btn btn-secondary btn-lg">저장</button>
+        </form>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() { 
+            $('#summernote').summernote({
+                height: 500, minHeight: null, maxHeight: null, lang : 'ko-KR', onImageUpload: function(files, editor, welEditable) { sendFile(files[0], editor, welEditable); }
+        }); 
+    
+    });
+    </script>
 </body>
 </html>

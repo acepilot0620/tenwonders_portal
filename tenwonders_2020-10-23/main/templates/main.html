@@ -71,6 +71,9 @@
         #btn{
             margin-bottom: 10px;
         }
+        #function_btn{
+            margin-right: 30px;
+        }
     </style>
 </head>
 {% load static %}
@@ -85,13 +88,13 @@
           </a>
           <p style="margin-top: 20px;">{{nickname}} {{position}}님 반갑습니다</p>
             <a href="{% url 'logout' %}">
-                <button type="button" class="btn btn-primary btn-lg">로그아웃</button>
+                <button type="button" class="btn btn-primary btn-lg" style="background: #7902DF; border: 0; outline: 0;">로그아웃</button>
             </a>
             
         </div>
     </nav> 
         <h3 style="font-weight: bold; text-align: center; margin-top: 50px; margin-bottom: 30px;">공통 게시판</h3>
-        <div id="notice" style="height: 400px;">
+        <div id="notice" style="height: 300px;">
             <table class="table table-hover" style="width: 70%;  margin: auto; text-align: center;">
                 <thead>
                     <tr>
@@ -117,53 +120,78 @@
                 {% endfor %}
             </table>
             <div style="width: 70%; margin: auto;">
-                {% if position == '팀장' or position == '이사' %}
+                {% if position == '팀장' or position == '매니저' %}
                 <a href="{% url 'notice_create' %}"><button style="float: right;" type="button" class="btn btn-secondary">글쓰기</button></a>
                 {% endif %}
             </div>
         </div>
 
-        <div id="internalDB_container">
-            <form id="search_bar" method="POST" class="form-inline my-2 my-lg-0">
-                {% csrf_token %}
-                <img style="width: 6%; margin-right: 30px; margin-left: 20px;" src='https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/4962338431536834823-512.png' alt="">
-                <input style="width: 50%;" class="form-control mr-sm-2" type="text" name="search_DB" placeholder="인플루언서 DB에서 검색(ex. 이름,협찬제품명,브랜드명)" aria-label="search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">내부 인플루언서 검색</button>
-            </form>
+        <div id="other_functions_block" style="display: flex; justify-content: center;">
+            {% if position == '팀장' or position == '매니저' %}
+            <a href="{% url 'meeting' %}"><button id="function_btn" type="button" class="btn btn-primary btn-lg" style="background: #7902DF; border: 0; outline: 0;"><img style="width: 20%; margin-right: 15px;" src="{% static 'images/business_icon.png' %}" alt="">미팅 기록</button></a>
+            {% endif %}
+            <a href="{% url 'internal_search' %}"><button id="function_btn" type="button" class="btn btn-primary btn-lg" style="background: #7902DF; border: 0; outline: 0;"><img style="width: 15%; margin-right: 15px;" src="{% static 'images/search_icon.png' %}" alt="">인플루언서 검색</button></a>
         </div>
+
         <div style="text-align: center;">
+
+            {% if position == '팀장' or position == '매니저' %}
             <ul style="list-style: none;">
                 <li>
-                    <div style="display: inline-block;">
-                        <p style="font-size: 60px; font-weight: bolder; margin-top: 30px;">진행중인 업무</p>
+                    <div style="margin: 0;">
+                        <p style="font-size: 30px; font-weight: bolder; margin-top: 20px;">진행중인 업무</p>
                     </div>
                 </li>
-                {% if position == '팀장' or position == '이사' %}
                 <li>
-                    <a style="font-size: 20px;" href="{% url 'create_contract' %}">신규 업무 추가</a>
+                    <a style="font-size: 20px;" href="{% url 'work_create' %}">신규 업무 추가</a>
                 </li>
-                {% endif %}
+                
                 <li style="margin-top: 50px;">
                     <ul style="display: flex;justify-content: center; list-style: none;">
-                        {% for obj in contract %}
+                        {% for obj in work %}
                         <li id="contract">
 
                             <div>
-                                <a href="{% url 'contract_board' obj.id %}">
+                                <a href="{% url 'work_detail' obj.id %}">
                                     <button  style="width: 150px; height: 100px;" type="button" class="btn btn-primary btn-lg">{{obj.name}}</button>
                                 </a>     
                             </div>
-                            {% if position == '팀장' or position == '이사' %}
+                            
                             <div>
-                                <a style="color: red;" href="{% url 'delete_contract' obj.id %}">삭제</a>
+                                <a style="color: red;" href="{% url 'work_delete' obj.id %}">삭제</a>
                             </div>
-                            {% endif %}
+                            
                             {% endfor %}
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
+            {% endif %}
+            {% if position == "근로장학생" %}
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 30px; font-weight: bolder; margin-top: 20px;">나의 업무</p>
+            </div>
+            <ul style="list-style: none;">
+                <li style="margin-top: 50px;">
+                    <ul style="display: flex;justify-content: center; list-style: none;">
+                        {% for obj in mywork %}
+                        <li id="contract">
+
+                            <div>
+                                <a href="{% url 'work_detail' obj.id %}">
+                                    <button  style="width: 150px; height: 100px;" type="button" class="btn btn-primary btn-lg">{{obj.name}}</button>
+                                </a>     
+                            </div>
+                            
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+            {% endif %}
+            
         
     {% endif %}
     {% if user.is_active == False %}
@@ -171,7 +199,7 @@
         <br>
         <br>
         <br>
-        <h1>로그아웃 되었습니다</h1>
+        <h1 style="margin-top: 100px;">로그아웃 되었습니다</h1>
         <br>
         <h1>오늘도 수고하셨습니다</h1>
         <br>
@@ -179,10 +207,7 @@
         </div>
     {% endif %}
 
-<footer>
-    <div style="background-color: gray; height: 100px; margin-top: 100px;">
-    </div>
-</footer>
+
 
 </body>
 

@@ -80,7 +80,7 @@
     
     <section class="login">
         <div id="login_title">
-            <a href="{% url 'login' %}"><img style="width: 100%;" src="{% static 'images/cellystory_logo2.jpg' %}" href="{% url 'home' %}" alt=""></a>
+            <a href="{% url 'login' %}"><img style="width: 100%; margin-bottom: 50px;" src="{% static 'images/tenwonders_logo.png' %}" href="{% url 'home' %}" alt=""></a>
         </div>
         <h2>계정생성</h2>
         <ul>
@@ -89,8 +89,14 @@
             <li><input type="text" placeholder="아이디" name="id"></li>
             <li><input type="password" placeholder="비밀번호" name="password1"></li>
             <li><input type="password" placeholder="비밀번호 확인" name="password2"></li>
-            <li><input type="text" placeholder="직급" name="position"></li>
-            <p style='margin-left: 20px;'>근로장학생은 근로장학생이라고 적어주세요</p>
+            <li>
+                <label for="position" style="margin-left: 20px;">직급</label>
+                <select name="position" id="position" style="width: 200px;">
+                    <option value="팀장">팀장</option>
+                    <option value="매니저">매니저</option>
+                    <option value="근로장학생">근로장학생</option>
+                </select>
+            </li>
             <li><input type="text" placeholder="성함" name="nickname"></li>
             <div style=" margin: 0 0 0 30px; color: red;" class="messages">
                 {% if messages %}
@@ -99,7 +105,7 @@
                 {% endfor %}
                 {% endif %}
             </div>
-            <li><button type="submit">계정 생성</button></li>
+            <li><button type="submit" style="background-color: #7902DF;">계정 생성</button></li>
             </form>
             
         </ul>

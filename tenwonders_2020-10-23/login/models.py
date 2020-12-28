@@ -7,5 +7,7 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.TextField(max_length="20")
     position = models.TextField(max_length="20")
+    def __str__(self):
+        return self.nickname
 
     

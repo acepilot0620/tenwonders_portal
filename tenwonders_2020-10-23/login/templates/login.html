@@ -18,7 +18,7 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
 
-    <title>로그인</title>
+    <title>텐원더스 포털 로그인</title>
     <style>
         
 
@@ -80,7 +80,7 @@
     
     <section class="login">
         <div id="login_title">
-            <a href="{% url 'login' %}"><img style="width: 100%;" src="{% static 'images/cellystory_logo2.jpg' %}" href="{% url 'login' %}" alt=""></a>
+            <a href="{% url 'login' %}"><img style="width: 100%; margin-bottom: 50px;" src="{% static 'images/tenwonders_logo.png' %}" href="{% url 'login' %}" alt=""></a>
         </div>
         <h2>로그인</h2>
         <ul>
@@ -95,7 +95,7 @@
                 {% endfor %}
                 {% endif %}
             </div>
-            <li><button type="submit">로그인</button></li>
+            <li><button type="submit" style="background-color: #7902DF;">로그인</button></li>
             </form>
             
         </ul>

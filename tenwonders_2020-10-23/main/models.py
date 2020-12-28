@@ -24,24 +24,22 @@ class Instagram_result(models.Model):
     def __str__(self):
         return self.insta_id
 
-class Contract(models.Model):
-    name = models.CharField(max_length=30)
-    category = models.CharField(max_length=30)
-    start_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField()
+class Work(models.Model):
+    name = models.CharField(max_length=30,verbose_name="업무 이름")
+    content = models.TextField(verbose_name="업무 내용")
+    assigned_worker = models.ManyToManyField(Account, verbose_name=("배정된 직원"))
+    file = models.FileField(upload_to='files/')
     def __str__(self):
         return self.name
 
-class Record(models.Model):
-    contract = models.ForeignKey(Contract,on_delete=models.CASCADE)
-    insta_id = models.CharField(max_length=30)
-    writer = models.CharField(max_length=10,default="default_id")
-    influencer = models.CharField(max_length=30)
-    #바꾸기 귀찮아서 안바꿈 feed_condition아니라  DM내용임
-    feed_condition = models.TextField(max_length=1000)
-    is_confirmed = models.BooleanField()
+
+
+class Log(models.Model):
+    work = models.ForeignKey(Work,on_delete=models.CASCADE)
+    worker = models.ForeignKey(Account,on_delete=models.CASCADE) 
+    date = models.DateTimeField(default=timezone.now(), null=True)
     def __str__(self):
-        return self.influencer
+        return self.date
 
 class ID_btn(models.Model):
     celly_id = models.CharField(max_length=20,default="default_id")
@@ -75,4 +73,16 @@ class Notice(models.Model):
     visit_num = models.IntegerField(default=0)
     def __str__(self):
         return self.title
-    
+
+class Meeting(models.Model):
+    name = models.ForeignKey(Account,on_delete=models.CASCADE)
+    company = models.CharField(max_length=50,verbose_name="회사명")
+    date = models.DateTimeField(default=timezone.now(), null=True) 
+    encharge_name = models.CharField(max_length=20,verbose_name="담당자명")
+    position = models.CharField(max_length=20, verbose_name="직책")
+    phone_num = models.CharField(max_length=30)
+    email = models.EmailField(max_length=254)
+    company_address = models.TextField(verbose_name="회사 주소")
+    etc = models.TextField(verbose_name="특이사항")
+    def __str__(self):
+        return self.company

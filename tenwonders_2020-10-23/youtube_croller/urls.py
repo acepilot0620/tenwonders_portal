@@ -15,27 +15,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import main, go_back_and_clean,create_contract,show_record,confirm,delete,wait,delete_contract,celly_btn_info,btn_push,btn_create,btn_delete,notice_create,notice_detail,notice_delete
+from main.views import main,work_create,work_delete,work_detail,notice_create,notice_detail,notice_delete
+from main.views import meeting,meeting_create,meeting_detail,meeting_delete,internal_search,assign_worker,exclude_worker
 from login.views import login,logout,signup
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/',main,name='home'),
-    path('delete/', go_back_and_clean, name="delete"),
     path('',login, name='login'),
     path('logout/',logout, name='logout'),
     path('sign_up/',signup, name='signup'),
-    path('create_contract/',create_contract,name='create_contract'),
-    path('contract_board/<int:contract_id>',show_record,name='contract_board'),
-    path('confirm/<int:record_id><int:contract_id>',confirm,name='confirm'),
-    path('delete/<int:record_id><int:contract_id>',delete,name='delete'),
-    path('wait/<int:record_id><int:contract_id>',wait,name='wait'),
-    path('delete_contract/<int:contract_id>',delete_contract,name='delete_contract'),
-    path('btn_info/<int:btn_id>',celly_btn_info,name='btn_info'),
-    path('btn_push/<int:btn_id>',btn_push, name="btn_push"),
-    path('btn_create/',btn_create,name='btn_create'),
-    path('btn_delete/<int:btn_id>', btn_delete, name='btn_delete'),
+    path('work_create/',work_create,name='work_create'),
+    path('work_detail/<int:work_id>',work_detail,name='work_detail'),
+    path('work_delete/<int:work_id>',work_delete,name='work_delete'),
     path('notice_create/',notice_create,name="notice_create"),
     path('notice_detail/<int:notice_id>', notice_detail, name="notice_detail"),
     path('notice_delete/<int:notice_id>', notice_delete, name='notice_delete'),
+    path('meeting/',meeting,name="meeting"),
+    path('meeting_create/',meeting_create,name='meeting_create'),
+    path('meeting_detail/<int:meeting_id>',meeting_detail,name="meeting_detail"),
+    path('meeting_delete/<int:meeting_id>',meeting_delete,name="meeting_delete"),
+    path('internal_search/',internal_search,name="internal_search"),
+    path('assign_worker/<int:work_id><int:worker_id>',assign_worker,name="assign_worker"),
+    path('exclude_worker/<int:work_id><int:worker_id>',exclude_worker,name='exclude_worker'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
