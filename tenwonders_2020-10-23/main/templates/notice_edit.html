@@ -34,7 +34,7 @@
         <div>
             <h2>공지 수정</h2>
         </div>
-        <form method="POST" action="{% url 'notice_create' %}">
+        <form method="POST" action="{% url 'notice_edit' notice.id %}">
             {% csrf_token %}
             <label for="title">제목</label>
             <input id="title" class="input" type="text" name="title" style="width: 600px;" value='{{notice.title}}'>

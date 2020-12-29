@@ -114,14 +114,13 @@ def work_create(request):
     return render(request,'work_create.html')
 
 def work_edit(request, work_id):
-    work = Work.objects.get(pk=work_id)
+    work = Work.objects.get(id=work_id)
     if request.method == "POST":
         work_name = request.POST.get('work_name')
         content = request.POST.get('content')
-        new_work = Work()
-        new_work.name = work_name
-        new_work.content = content
-        new_work.save()
+        work.name = work_name
+        work.content = content
+        work.save()
         return redirect('work_detail',work_id)
     return render(request,"work_edit.html",{"work":work})
 
@@ -312,7 +311,7 @@ def notice_create(request):
     return render(request,'notice_create.html')
 
 def notice_edit(request, notice_id):
-    notice = Notice.objects.get(pk=notice_id)
+    notice = Notice.objects.get(id=notice_id)
     if request.method == 'POST':
         account = Account.objects.get(user=request.user)
         title = request.POST.get('title')
@@ -324,7 +323,7 @@ def notice_edit(request, notice_id):
         notice.writer = account
         notice.status = status
         notice.save()
-        return redirect('notice_detail',notice_id)
+        return redirect('notice_detail', notice_id)
     return render(request,'notice_edit.html',{'notice':notice})
 
 def notice_detail(request, notice_id):

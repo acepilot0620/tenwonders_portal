@@ -34,7 +34,7 @@
         <div>
             <h2>업무 수정</h2>
         </div>
-        <form method="POST" action="{% url 'work_create' %}">
+        <form method="POST" action="{% url 'work_edit' work.id %}">
             {% csrf_token %}
             <label for="work_name">업무 이름</label>
             <input id="work_name" class="input" type="text" name="work_name" value="{{work.name}}" style="width: 600px;">
