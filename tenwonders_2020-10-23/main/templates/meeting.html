@@ -132,6 +132,23 @@
                 </tbody>
                 {% endfor %}
             </table>
+            <div style="text-align: center;">
+                {% if meetings.has_previous %}
+                <a href="?page=1">맨앞으로</a>
+                <span>{{meeting.number}}</span>
+                <span>/</span>
+                <span>{{meetings.paginator.num_pages}}</span>
+                <a href="?page={{meetings.previous_page_number}}">이전으로</a>
+                {% endif %}
+                
+                {% if notices.has_next %}
+                <a href="?page={{meetings.next_page_number}}">다음으로</a>
+                <span>{{notices.get_page}}</span>
+                <span>/</span>
+                <span>{{notices.paginator.num_pages}}</span>
+                <a href="?page={{meetings.paginator.num_pages}}">맨 뒤로</a>
+                {% endif %}
+            </div>
             <div style="width: 70%; margin: auto; margin-top: 20px;">
                 {% if account.position == '팀장' or account.position == '매니저' %}
                 <a href="{% url 'meeting_create' %}"><button style="float: right;" type="button" class="btn btn-secondary">미팅 기록 생성</button></a>

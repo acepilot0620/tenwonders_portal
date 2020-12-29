@@ -9,6 +9,7 @@ from .models import *
 from login.models import Account
 from openpyxl import load_workbook
 from datetime import datetime
+from django.core.paginator import Paginator
 
 
 
@@ -20,6 +21,9 @@ def main(request):
         work = Work.objects.all()
         account = Account.objects.get(user=request.user)
         notice = Notice.objects.all()
+        paginator = Paginator(notice,6)
+        page = request.GET.get('page')
+        notices = paginator.get_page(page)
         mywork = []
 
         for i in work:
@@ -31,6 +35,7 @@ def main(request):
         context.setdefault('position', account.position)
         context.setdefault('notice',notice)
         context.setdefault('mywork',mywork)
+        context.setdefault('notices',notices)
     # if request.method == 'POST':
 
     #     youtube_search = request.POST.get('search_youtube')
@@ -340,11 +345,11 @@ def notice_delete(request, notice_id):
 def meeting(request):
     account = Account.objects.get(user=request.user)
     meeting = Meeting.objects.all()
+
     search_meeting = []
     if request.method == "POST":
         column = request.POST.get('column')
         meeting_search = request.POST.get('meeting_search')
-        
         if column == "회사명":
             for obj in meeting:
                 if meeting_search in obj.company:
@@ -375,6 +380,9 @@ def meeting(request):
 def meeting_create(request):
     account = Account.objects.get(user=request.user)
     meeting = Meeting.objects.all()
+    paginator = Paginator(meeting,12)
+    page = request.GET.get('page')
+    meetings = paginator.get_page(page)
     if request.method == "POST":
         company = request.POST.get('company')
         encharge_name = request.POST.get('encharge_name')
@@ -394,7 +402,7 @@ def meeting_create(request):
         new_meeting.name = account
         new_meeting.save()
         return redirect('meeting')
-    return render(request,"meeting_create.html",{'account':account,'meeting':meeting})
+    return render(request,"meeting_create.html",{'account':account,'meeting':meeting,'meetings':meetings})
 
 def meeting_detail(request, meeting_id):
     account = Account.objects.get(user=request.user)

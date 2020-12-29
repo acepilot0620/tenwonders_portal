@@ -94,7 +94,7 @@
         </div>
     </nav> 
         <h3 style="font-weight: bold; text-align: center; margin-top: 50px; margin-bottom: 30px;">공통 게시판</h3>
-        <div id="notice" style="height: 300px;">
+        <div id="notice" style="height: 600px;">
             <table class="table table-hover" style="width: 70%;  margin: auto; text-align: center;">
                 <thead>
                     <tr>
@@ -105,7 +105,7 @@
                         <th>조회수</th>
                     </tr>
                 </thead>
-                {% for obj in notice%}
+                {% for obj in notices %}
                 <tbody>
                     {% if obj.status == 'alert' %}
                     <td><p style="color: red;">[공지]</p></td>
@@ -119,6 +119,24 @@
                 </tbody>
                 {% endfor %}
             </table>
+            <div style="text-align: center;">
+                {% if notices.has_previous %}
+                <a href="?page=1">맨앞으로</a>
+                <span>{{notice.number}}</span>
+                <span>/</span>
+                <span>{{notices.paginator.num_pages}}</span>
+                <a href="?page={{notices.previous_page_number}}">이전으로</a>
+                {% endif %}
+                
+                {% if notices.has_next %}
+                <a href="?page={{notices.next_page_number}}">다음으로</a>
+                <span>{{notices.get_page}}</span>
+                <span>/</span>
+                <span>{{notices.paginator.num_pages}}</span>
+                <a href="?page={{notices.paginator.num_pages}}">맨 뒤로</a>
+                {% endif %}
+            </div>
+            
             <div style="width: 70%; margin: auto;">
                 {% if position == '팀장' or position == '매니저' %}
                 <a href="{% url 'notice_create' %}"><button style="float: right;" type="button" class="btn btn-secondary">글쓰기</button></a>
