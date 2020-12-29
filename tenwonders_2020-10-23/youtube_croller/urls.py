@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import main,work_create,work_delete,work_detail,notice_create,notice_detail,notice_delete
+from main.views import main,work_create,work_delete,work_detail,work_edit,notice_create,notice_detail,notice_delete,notice_edit
 from main.views import meeting,meeting_create,meeting_detail,meeting_delete,internal_search,assign_worker,exclude_worker
 from login.views import login,logout,signup
 from django.conf import settings
@@ -30,7 +30,9 @@ urlpatterns = [
     path('work_create/',work_create,name='work_create'),
     path('work_detail/<int:work_id>',work_detail,name='work_detail'),
     path('work_delete/<int:work_id>',work_delete,name='work_delete'),
+    path('work_edit/<int:work_id>',work_edit,name='work_edit'),
     path('notice_create/',notice_create,name="notice_create"),
+    path('notie_edit/<int:notice_id>',notice_edit,name='notice_edit'),
     path('notice_detail/<int:notice_id>', notice_detail, name="notice_detail"),
     path('notice_delete/<int:notice_id>', notice_delete, name='notice_delete'),
     path('meeting/',meeting,name="meeting"),

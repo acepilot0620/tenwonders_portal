@@ -31,15 +31,34 @@
 {% load static %}
 <body>
     <div style="width: 60%; margin: auto; margin-top: 100px;">
-        <h2 style="margin-bottom: 50px;">{{notice.title}}</h2>
-        <p>{{notice.content|safe}}</p>
-        <div style="text-align: right; margin-top: 100px;">
-            <a href="{% url 'home' %}"><button type="button" class="btn btn-danger" style="background: #7902DF; border: 0; outline: 0;">홈으로</button></a>
-            {% if account.position == '팀장' or account.position == '매니저'%}
-            <a href="{% url 'notice_edit' notice.id %}"><button type="button" class="btn btn-secondary">수정</button></a>
-            <a href="{% url 'notice_delete' notice.id %}"><button type="button" class="btn btn-danger">삭제</button></a>
-            {% endif %}
+        <div>
+            <h2>공지 수정</h2>
         </div>
+        <form method="POST" action="{% url 'notice_create' %}">
+            {% csrf_token %}
+            <label for="title">제목</label>
+            <input id="title" class="input" type="text" name="title" style="width: 600px;" value='{{notice.title}}'>
+            <label for="status">말머리</label>
+            <select name="status">
+                {% if notice.status == 'alert' %}
+                <option value="alert" selected>공지글</option>
+                <option value="normal">일반글</option>
+                {% else %}
+                <option value="alert">공지글</option>
+                <option value="normal" selected>일반글</option>
+                {% endif %}
+            </select>
+            <textarea name="content" id="summernote" class="summernote" cols="600" rows="500">{{notice.content|safe}}</textarea>
+            <button style="float: right;" type="submit" class="btn btn-secondary btn-lg">저장</button>
+        </form>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() { 
+            $('#summernote').summernote({
+                height: 500, minHeight: null, maxHeight: null, lang : 'ko-KR', onImageUpload: function(files, editor, welEditable) { sendFile(files[0], editor, welEditable); }
+        }); 
+    
+    });
+    </script>
 </body>
 </html>
