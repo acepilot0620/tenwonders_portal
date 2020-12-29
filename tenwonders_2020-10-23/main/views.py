@@ -333,7 +333,10 @@ def notice_edit(request, notice_id):
 
 def notice_detail(request, notice_id):
     account = Account.objects.get(user=request.user)
-    notice = get_object_or_404(Notice, pk = notice_id)
+    notice = Notice.objects.get(id=notice_id)
+    notice.visit_num = notice.visit_num + 1
+    notice.save()
+    print(notice.visit_num)
     return render(request,'notice_detail.html',{'notice':notice, 'account':account})
 
 def notice_delete(request, notice_id):
