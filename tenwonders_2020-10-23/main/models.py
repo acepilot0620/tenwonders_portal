@@ -86,3 +86,8 @@ class Meeting(models.Model):
     etc = models.TextField(verbose_name="특이사항")
     def __str__(self):
         return self.company
+
+class Schedule(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    day = models.CharField(max_length=10,verbose_name="요일")
+    
